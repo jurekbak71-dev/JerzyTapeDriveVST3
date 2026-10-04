@@ -75,7 +75,7 @@ tresult PLUGIN_API TapeDriveController::setComponentState(IBStream*s){
 IPlugView* PLUGIN_API TapeDriveController::createView(const char*n){
  if(n&&std::strcmp(n,ViewType::kEditor)==0){
    auto* editor = new TapeDriveEditor(this,"view","tapedrive_vintage.uidesc");
-   editor->setAllowedZoomFactors({0.75,1.0,1.25,1.5});
+   editor->setAllowedZoomFactors({0.70,0.85,1.0,1.25,1.5});
    return editor;
  }
  return nullptr;
