@@ -1,35 +1,61 @@
-name: Build Tape Drive VST3 Windows
+name: Build TapeDrive Windows VST3
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ main ]
   pull_request:
+    branches: [ main ]
+  push:
     branches: [ main ]
 
 jobs:
   build:
     runs-on: windows-2022
-    timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
-      - name: Configure
-        shell: pwsh
-        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DSMTG_CREATE_PLUGIN_LINK=0
-      - name: Build Release
-        shell: pwsh
-        run: cmake --build build --config Release --target JerzyTapeDrive TapeDriveDSPTests TapeDriveGUITests --parallel
-      - name: Test DSP and GUI
-        shell: pwsh
-        run: ctest --test-dir build -C Release --verbose --output-on-failure -R "^(TapeDriveDSP|TapeDriveGUI)$"
-      - name: Package
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      - name: Clone Steinberg VST3 SDK
         shell: pwsh
         run: |
-          $plugin = Get-ChildItem -Path build -Recurse -Directory -Filter "JerzyTapeDrive.vst3" | Select-Object -First 1
-          if (-not $plugin) { throw "JerzyTapeDrive.vst3 was not produced" }
-          New-Item -ItemType Directory -Force artifact | Out-Null
-          Copy-Item -Recurse -Force $plugin.FullName artifact/JerzyTapeDrive.vst3
+          git clone --depth 1 --recurse-submodules --shallow-submodules https://github.com/steinbergmedia/vst3sdk.git external/vst3sdk
+
+      - name: Configure
+        shell: pwsh
+        run: |
+          cmake -S . -B build -G "Visual Studio 17 2022" -A x64 `
+            -DVST3_SDK_ROOT="$PWD/external/vst3sdk" `
+            -DSMTG_CREATE_PLUGIN_LINK=0
+
+      - name: Build Release
+        shell: pwsh
+        run: cmake --build build --config Release --target JerzyTapeDrive --parallel
+
+      - name: DSP and native GUI regression tests
+        shell: pwsh
+        run: |
+          cmake --build build --config Release --target TapeDriveDSPTests TapeDriveGUITests --parallel
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          ctest --test-dir build -C Release --verbose --output-on-failure -R "^(TapeDriveDSP|TapeDriveGUI)$"
+
+      - name: Upload GUI render evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: TapeDrive-GUI-render-evidence
+          path: |
+            build/tapedrive-render-*.png
+            build/tapedrive-window-*.bmp
+          if-no-files-found: ignore
+
+      - name: Collect VST3 bundle
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path artifact | Out-Null
+          $drive = Get-ChildItem -Path build -Recurse -Directory -Filter "JerzyTapeDrive.vst3" | Select-Object -First 1
+          if (-not $drive) { throw "JerzyTapeDrive.vst3 was not produced" }
+          Copy-Item -Recurse -Force $drive.FullName artifact/JerzyTapeDrive.vst3
           Compress-Archive -Path artifact/JerzyTapeDrive.vst3 -DestinationPath JerzyTapeDrive_Windows_x64.zip -Force
+
       - name: Upload Tape Drive
         uses: actions/upload-artifact@v4
         with:
@@ -38,4 +64,3 @@ jobs:
             artifact/JerzyTapeDrive.vst3
             JerzyTapeDrive_Windows_x64.zip
           if-no-files-found: error
-          retention-days: 90
