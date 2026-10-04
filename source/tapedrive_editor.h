@@ -24,6 +24,7 @@ private:
     NativeResizeWatcher* nativeWatcher=nullptr;
     bool applyingSize=false;
     double userZoom=1.0;
+    double hostScaleFactor=1.0;
     void fitHostSize(const Steinberg::ViewRect& size);
     void applyZoom(double factor);
 };
