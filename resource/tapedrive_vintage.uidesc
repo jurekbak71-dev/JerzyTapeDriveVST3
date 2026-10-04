@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<vstgui-ui-description version="1">
+  <fonts>
+    <font name="Label" font-name="Arial" size="18" bold="true" />
+    <font name="Small" font-name="Arial" size="12" bold="true" />
+    <font name="Value" font-name="Arial" size="15" bold="true" />
+  </fonts>
+  <colors>
+    <color name="Amber" rgba="#e6a04eff" />
+    <color name="Cream" rgba="#ecd9b5ff" />
+    <color name="Black" rgba="#0f0e0cff" />
+    <color name="Border" rgba="#856f50ff" />
+  </colors>
+  <bitmaps>
+    <bitmap name="VintagePanel" path="tapedrive_vintage_background.jpg" />
+  </bitmaps>
+  <template name="view" class="CViewContainer" origin="0, 0" size="1200, 672" minSize="900, 504" maxSize="1800, 1008" bitmap="VintagePanel" transparent="false" tooltip="Jerzy Tape Drive">
+    <view class="CTextLabel" origin="785, 211" size="350, 20" title="v0.3.1 — WINDOW SCALE" font="Small" font-color="Amber" transparent="true" text-alignment="right" mouse-enabled="false" />
+    <view class="HardwarePanel" origin="0, 0" size="1200, 672" mouse-enabled="false" />
+    <view class="CTextLabel" origin="70, 239" size="142, 23" title="DRIVE" font="Label" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="88, 266" size="106, 106" control-tag="Sat" wheel-inc-value="0.01" tooltip="Tape saturation" />
+    <view class="CTextLabel" origin="95.0, 374" size="92, 22" control-tag="Sat" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+    <view class="CTextLabel" origin="295, 239" size="142, 23" title="OUTPUT" font="Label" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="313, 266" size="106, 106" control-tag="Level" wheel-inc-value="0.01" tooltip="Wet output level" />
+    <view class="CTextLabel" origin="320.0, 374" size="92, 22" control-tag="Level" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+    <view class="CTextLabel" origin="520, 239" size="142, 23" title="DRY" font="Label" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="538, 266" size="106, 106" control-tag="Dry" wheel-inc-value="0.01" tooltip="Add unprocessed input" />
+    <view class="CTextLabel" origin="545.0, 374" size="92, 22" control-tag="Dry" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+    <view class="CTextLabel" origin="70, 398" size="136, 23" title="WOW" font="Label" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="88, 425" size="100, 100" control-tag="Wow" wheel-inc-value="0.01" tooltip="Slow, irregular transport drift" />
+    <view class="CTextLabel" origin="92.0, 527" size="92, 22" control-tag="Wow" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+    <view class="CTextLabel" origin="295, 398" size="136, 23" title="FLUTTER" font="Label" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="313, 425" size="100, 100" control-tag="Flutter" wheel-inc-value="0.01" tooltip="Fast, irregular transport jitter" />
+    <view class="CTextLabel" origin="317.0, 527" size="92, 22" control-tag="Flutter" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+    <view class="CTextLabel" origin="520, 398" size="136, 23" title="TAPE AGE" font="Label" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="538, 425" size="100, 100" control-tag="Age" wheel-inc-value="0.01" tooltip="Hiss, random crackle, dropouts and worn-tape tone" />
+    <view class="CTextLabel" origin="542.0, 527" size="92, 22" control-tag="Age" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+    <view class="CTextLabel" origin="768, 242" size="190, 23" title="INPUT" font="Label" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="AnalogMeter" origin="768, 269" size="190, 99" control-tag="InputMeter" mouse-enabled="false" />
+    <view class="CTextLabel" origin="970, 242" size="190, 23" title="OUTPUT" font="Label" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="AnalogMeter" origin="970, 269" size="190, 99" control-tag="OutputMeter" mouse-enabled="false" />
+    <view class="CTextLabel" origin="770, 391" size="390, 23" title="OPTICAL INPUT COMPRESSOR" font="Label" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="CTextLabel" origin="759, 415" size="118, 23" title="COMPRESSION" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="777, 442" size="82, 82" control-tag="OptoAmount" wheel-inc-value="0.01" tooltip="Optical peak reduction with program-dependent release" />
+    <view class="CTextLabel" origin="882, 415" size="118, 23" title="MAKEUP" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="900, 442" size="82, 82" control-tag="OptoMakeup" wheel-inc-value="0.01" tooltip="Compressor output gain, before preamp and tape" />
+    <view class="CTextLabel" origin="774, 527" size="88, 22" control-tag="OptoAmount" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+    <view class="CTextLabel" origin="898, 527" size="88, 22" control-tag="OptoMakeup" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+    <view class="CTextLabel" origin="1030, 428" size="90, 23" title="BYPASS" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="BypassButton" origin="1044, 449" size="64, 66" control-tag="OptoBypass" tooltip="Bypass optical input compressor (lamp on = bypassed)" />
+    <view class="CTextLabel" origin="1110, 452" size="43, 23" title="GR" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="CTextLabel" origin="1105, 478" size="48, 22" control-tag="OptoGR" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+    <view class="CTextLabel" origin="36, 555" size="93, 23" title="HPF Hz" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="54, 582" size="57, 57" control-tag="HPF" wheel-inc-value="0.01" tooltip="HPF Hz" />
+    <view class="CTextLabel" origin="47, 641" size="72, 22" control-tag="HPF" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+    <view class="CTextLabel" origin="128, 555" size="93, 23" title="HPF Q" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="146, 582" size="57, 57" control-tag="HPFRes" wheel-inc-value="0.01" tooltip="HPF Q" />
+    <view class="CTextLabel" origin="139, 641" size="72, 22" control-tag="HPFRes" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+    <view class="CTextLabel" origin="220, 555" size="93, 23" title="LPF Hz" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="238, 582" size="57, 57" control-tag="LPF" wheel-inc-value="0.01" tooltip="LPF Hz" />
+    <view class="CTextLabel" origin="231, 641" size="72, 22" control-tag="LPF" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+    <view class="CTextLabel" origin="312, 555" size="93, 23" title="LPF Q" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="330, 582" size="57, 57" control-tag="LPFRes" wheel-inc-value="0.01" tooltip="LPF Q" />
+    <view class="CTextLabel" origin="323, 641" size="72, 22" control-tag="LPFRes" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+    <view class="CTextLabel" origin="454, 555" size="93, 23" title="PREAMP" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="472, 582" size="57, 57" control-tag="PreampDrive" wheel-inc-value="0.01" tooltip="PREAMP" />
+    <view class="CTextLabel" origin="465, 641" size="72, 22" control-tag="PreampDrive" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+    <view class="CTextLabel" origin="569, 558" size="76, 23" title="MODE" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ThreeWaySwitch" origin="582, 580" size="49, 54" control-tag="PreampMode" tooltip="Click: OFF / TUBE / TRANSISTOR" />
+    <view class="CTextLabel" origin="554, 641" size="103, 22" control-tag="PreampMode" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+    <view class="CTextLabel" origin="714, 558" size="70, 23" title="GAIN" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ToggleSwitch" origin="724, 582" size="49, 54" control-tag="Gain" tooltip="Click to switch high-gain tape drive" />
+    <view class="CTextLabel" origin="713, 641" size="72, 22" control-tag="Gain" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+    <view class="CTextLabel" origin="817, 558" size="70, 23" title="SHIFT" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ThreeWaySwitch" origin="827, 582" size="49, 54" control-tag="Shift" tooltip="Click to change tape emphasis" />
+    <view class="CTextLabel" origin="816, 641" size="72, 22" control-tag="Shift" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+    <view class="CTextLabel" origin="939, 562" size="90, 23" title="BYPASS" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="BypassButton" origin="954, 583" size="61, 62" control-tag="Bypass" tooltip="Bypass the whole plugin (lamp on = bypassed)" />
+    <view class="CTextLabel" origin="1033, 561" size="120, 23" title="UI SIZE" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="CTextButton" origin="1040, 590" size="54, 24" title="75%" font="Small" control-tag="Zoom75" text-color="Cream" text-color-highlighted="Amber" frame-color="Border" frame-width="1" round-radius="4" kick-style="true" transparent="true" tooltip="GUI scale 75%" />
+    <view class="CTextButton" origin="1100, 590" size="54, 24" title="100%" font="Small" control-tag="Zoom100" text-color="Cream" text-color-highlighted="Amber" frame-color="Border" frame-width="1" round-radius="4" kick-style="true" transparent="true" tooltip="GUI scale 100%" />
+    <view class="CTextButton" origin="1040, 620" size="54, 24" title="125%" font="Small" control-tag="Zoom125" text-color="Cream" text-color-highlighted="Amber" frame-color="Border" frame-width="1" round-radius="4" kick-style="true" transparent="true" tooltip="GUI scale 125%" />
+    <view class="CTextButton" origin="1100, 620" size="54, 24" title="150%" font="Small" control-tag="Zoom150" text-color="Cream" text-color-highlighted="Amber" frame-color="Border" frame-width="1" round-radius="4" kick-style="true" transparent="true" tooltip="GUI scale 150%" />
+  </template>
+  <control-tags>
+    <control-tag name="Sat" tag="300" />
+    <control-tag name="Level" tag="301" />
+    <control-tag name="Dry" tag="302" />
+    <control-tag name="Gain" tag="303" />
+    <control-tag name="Shift" tag="304" />
+    <control-tag name="Bypass" tag="305" />
+    <control-tag name="OutputMeter" tag="306" />
+    <control-tag name="HPF" tag="307" />
+    <control-tag name="HPFRes" tag="308" />
+    <control-tag name="LPF" tag="309" />
+    <control-tag name="LPFRes" tag="310" />
+    <control-tag name="Wow" tag="311" />
+    <control-tag name="InputMeter" tag="312" />
+    <control-tag name="SatMeter" tag="313" />
+    <control-tag name="PreampMode" tag="314" />
+    <control-tag name="PreampDrive" tag="315" />
+    <control-tag name="Flutter" tag="316" />
+    <control-tag name="Age" tag="317" />
+    <control-tag name="OptoAmount" tag="318" />
+    <control-tag name="OptoMakeup" tag="319" />
+    <control-tag name="OptoBypass" tag="320" />
+    <control-tag name="OptoGR" tag="321" />
+    <control-tag name="Zoom75" tag="9001" />
+    <control-tag name="Zoom100" tag="9002" />
+    <control-tag name="Zoom125" tag="9003" />
+    <control-tag name="Zoom150" tag="9004" />
+  </control-tags>
+  <gradients />
+  <variables />
+</vstgui-ui-description>
