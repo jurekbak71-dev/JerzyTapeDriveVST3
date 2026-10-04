@@ -174,37 +174,56 @@ void BypassButton::draw(CDrawContext* c){
 HardwarePanel::HardwarePanel(const CRect& r,IControlListener* l,int32_t tag):CKnob(r,l,tag,nullptr,nullptr){setMouseEnabled(false);}
 void HardwarePanel::draw(CDrawContext* c){
     c->setDrawMode(kAntiAliasing|kNonIntegralMode);
-    c->setFrameColor(CColor(169,113,58,130));c->setLineWidth(1);
-    c->drawLine({40,397},{720,397});c->drawLine({735,235},{735,547});
-    c->drawLine({40,551},{1160,551});c->drawLine({760,381},{1160,381});
+    const CRect sections[]={{30,70,585,405},{600,70,1010,405},{30,412,1010,574}};
+    for(const auto& r:sections){
+        c->setFillColor(CColor(4,16,21,72));
+        c->setFrameColor(CColor(134,171,174,110));
+        c->setLineWidth(1.2);
+        c->drawRect(r,kDrawFilledAndStroked);
+        c->setFrameColor(CColor(236,217,181,30));
+        c->setLineWidth(0.7);
+        CRect inner(r);inner.inset(4,4);c->drawRect(inner,kDrawStroked);
+        for(const auto& p:{CPoint{r.left+9,r.top+9},CPoint{r.right-9,r.top+9},
+                           CPoint{r.left+9,r.bottom-9},CPoint{r.right-9,r.bottom-9}})
+            ellipse(c,p.x,p.y,3.2,CColor(64,77,75),CColor(173,185,169));
+    }
+    c->setFrameColor(CColor(240,174,88,80));c->setLineWidth(1.0);
+    c->drawLine({31,62},{1009,62});
+    c->drawLine({31,615},{1009,615});
     setDirty(false);
 }
 OxidizedPanel::OxidizedPanel(const CRect& r,IControlListener* l,int32_t tag):CKnob(r,l,tag,nullptr,nullptr){setMouseEnabled(false);}
 void OxidizedPanel::draw(CDrawContext* c){
     const CRect r(getViewSize());
     c->setDrawMode(kAntiAliasing|kNonIntegralMode);
-    gradientRect(c,r,CColor(19,62,79),CColor(8,28,42));
-    // Deterministic blue-oxidized steel patina: broad blooms, pitting and brushed scratches.
-    for(int i=0;i<42;++i){
-        const double fx=0.5+0.47*std::sin(1.713*i+0.4);
-        const double fy=0.5+0.46*std::sin(2.371*i+1.1);
-        const double rr=22.0+70.0*(0.5+0.5*std::sin(3.117*i));
-        const uint8_t a=static_cast<uint8_t>(18+22*(0.5+0.5*std::sin(0.87*i)));
-        ellipse(c,r.left+fx*r.getWidth(),r.top+fy*r.getHeight(),rr,CColor(65,143,157,a),CColor(13,63,79,18));
+    gradientRect(c,r,CColor(14,48,61),CColor(5,21,29));
+    // Entire background is procedural/vector. Broad oxidation blooms, tiny pits
+    // and brushed scratches remain sharp at every host/DPI scaling factor.
+    for(int i=0;i<54;++i){
+        const double fx=0.5+0.48*std::sin(1.713*i+0.4);
+        const double fy=0.5+0.47*std::sin(2.371*i+1.1);
+        const double rr=18.0+64.0*(0.5+0.5*std::sin(3.117*i));
+        const uint8_t a=static_cast<uint8_t>(13+25*(0.5+0.5*std::sin(0.87*i)));
+        ellipse(c,r.left+fx*r.getWidth(),r.top+fy*r.getHeight(),rr,
+                CColor(65,143,157,a),CColor(13,63,79,10));
     }
-    for(int i=0;i<150;++i){
-        const double fx=0.5+0.49*std::sin(7.13*i+0.2);
-        const double fy=0.5+0.49*std::sin(11.71*i+1.8);
-        const double rr=0.7+2.4*(0.5+0.5*std::sin(5.17*i));
-        ellipse(c,r.left+fx*r.getWidth(),r.top+fy*r.getHeight(),rr,CColor(108,173,181,38),CColor(5,35,49,25));
+    for(int i=0;i<190;++i){
+        const double fx=0.5+0.492*std::sin(7.13*i+0.2);
+        const double fy=0.5+0.492*std::sin(11.71*i+1.8);
+        const double rr=0.5+2.0*(0.5+0.5*std::sin(5.17*i));
+        ellipse(c,r.left+fx*r.getWidth(),r.top+fy*r.getHeight(),rr,
+                CColor(126,185,188,28),CColor(5,35,49,20));
     }
-    for(int i=0;i<34;++i){
-        const double y=r.top+(i+0.5)*r.getHeight()/34.0;
-        const double dx=8.0+34.0*(0.5+0.5*std::sin(i*1.9));
-        c->setFrameColor(CColor(170,211,216,18));c->setLineWidth(0.7);
-        c->drawLine({r.left+dx,y},{r.right-dx*.7,y+std::sin(i*.8)*2.0});
+    for(int i=0;i<48;++i){
+        const double y=r.top+(i+0.5)*r.getHeight()/48.0;
+        const double dx=8.0+42.0*(0.5+0.5*std::sin(i*1.9));
+        c->setFrameColor(CColor(185,219,218,15));c->setLineWidth(0.55);
+        c->drawLine({r.left+dx,y},{r.right-dx*.7,y+std::sin(i*.8)*1.8});
     }
-    c->setFrameColor(CColor(132,185,194,90));c->setLineWidth(2.0);c->drawRect(r,kDrawStroked);
+    CRect inner(r);inner.inset(8,8);
+    c->setFrameColor(CColor(132,185,194,120));c->setLineWidth(2.0);c->drawRect(inner,kDrawStroked);
+    CRect inner2(r);inner2.inset(13,13);
+    c->setFrameColor(CColor(238,196,130,45));c->setLineWidth(0.8);c->drawRect(inner2,kDrawStroked);
     setDirty(false);
 }
 namespace {
