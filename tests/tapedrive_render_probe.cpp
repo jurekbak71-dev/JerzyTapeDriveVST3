@@ -26,8 +26,7 @@ extern "C" __declspec(dllexport) int __cdecl JerzyRenderEditorForTest(Steinberg:
     image.write(reinterpret_cast<const char*>(png.data()),png.size());
     auto pixels=VSTGUI::owned(VSTGUI::CBitmapPixelAccess::create(bitmap));
     if(!pixels)return 0;
-    // Wood near all four edges must be opaque and painted; the former blank
-    // right/bottom strips (or an unscaled bitmap) must fail this test.
+    // Procedural steel near all four edges must be opaque and painted; blank\n    // right/bottom strips or a stale vector transform must fail this test.
     for(double y:{.05,.95})for(double x:{.035,.965}){
         int painted=0;
         for(int j=-3;j<=3;++j)for(int i=-3;i<=3;++i){
@@ -75,12 +74,11 @@ extern "C" __declspec(dllexport) int __cdecl JerzyCaptureVisibleEditorForTest(St
     auto pixels=VSTGUI::owned(VSTGUI::CBitmapPixelAccess::create(reference->getBitmap()));
     const auto* bgra=static_cast<const unsigned char*>(data);
     bool matches=copied && pixels;
-    // Border, tape reels, six knobs and meters: enough detail to detect an
-    // unscaled picture even if the host fills the unused area with dark pixels.
+    // Vector borders, controls and meters: enough detail to detect a stale\n    // transform even if the host fills unused space with dark pixels.
     for(const auto p:{VSTGUI::CPoint{.035,.05},VSTGUI::CPoint{.965,.95},
          VSTGUI::CPoint{.14,.12},VSTGUI::CPoint{.865,.12},
-         VSTGUI::CPoint{141./1200,319./672},VSTGUI::CPoint{591./1200,475./672},
-         VSTGUI::CPoint{.70,.48},VSTGUI::CPoint{.90,.48},VSTGUI::CPoint{.80,.90}}){
+         VSTGUI::CPoint{119./1040,181./640},VSTGUI::CPoint{468./1040,330./640},
+         VSTGUI::CPoint{706./1040,173./640},VSTGUI::CPoint{903./1040,173./640},VSTGUI::CPoint{877./1040,507./640}}){
         int matching=0;
         for(int dy=-6;dy<=6;++dy)for(int dx=-6;dx<=6;++dx){
             const int x=static_cast<int>(p.x*width)+dx,y=static_cast<int>(p.y*height)+dy;

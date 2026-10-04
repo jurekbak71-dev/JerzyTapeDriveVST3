@@ -1,86 +1,117 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <vstgui-ui-description version="1">
   <fonts>
-    <font name="Label" font-name="Arial" size="18" bold="true" />
-    <font name="Small" font-name="Arial" size="12" bold="true" />
-    <font name="Value" font-name="Arial" size="15" bold="true" />
+    <font name="Title" font-name="Arial" size="25" bold="true" />
+    <font name="Section" font-name="Arial" size="15" bold="true" />
+    <font name="Label" font-name="Arial" size="14" bold="true" />
+    <font name="Small" font-name="Arial" size="10" bold="true" />
+    <font name="Value" font-name="Arial" size="12" bold="true" />
   </fonts>
   <colors>
-    <color name="Amber" rgba="#e6a04eff" />
-    <color name="Cream" rgba="#ecd9b5ff" />
-    <color name="Black" rgba="#0f0e0cff" />
-    <color name="Border" rgba="#856f50ff" />
+    <color name="Amber" rgba="#f0ae58ff" />
+    <color name="Cream" rgba="#eee0c5ff" />
+    <color name="Black" rgba="#111417ff" />
+    <color name="ValueBack" rgba="#0b161bda" />
+    <color name="Border" rgba="#8ca4a6d0" />
+    <color name="Muted" rgba="#9eb7b9ff" />
   </colors>
-  <bitmaps>
-    <bitmap name="VintagePanel" path="tapedrive_vintage_background.jpg" />
-  </bitmaps>
-  <template name="view" class="CViewContainer" origin="0, 0" size="1200, 672" minSize="900, 504" maxSize="1800, 1008" bitmap="VintagePanel" transparent="false" tooltip="Jerzy Tape Drive">
-    <view class="CTextLabel" origin="785, 211" size="350, 20" title="v0.3.1 — WINDOW SCALE" font="Small" font-color="Amber" transparent="true" text-alignment="right" mouse-enabled="false" />
-    <view class="HardwarePanel" origin="0, 0" size="1200, 672" mouse-enabled="false" />
-    <view class="CTextLabel" origin="70, 239" size="142, 23" title="DRIVE" font="Label" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="ChickenKnob" origin="88, 266" size="106, 106" control-tag="Sat" wheel-inc-value="0.01" tooltip="Tape saturation" />
-    <view class="CTextLabel" origin="95.0, 374" size="92, 22" control-tag="Sat" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
-    <view class="CTextLabel" origin="295, 239" size="142, 23" title="OUTPUT" font="Label" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="ChickenKnob" origin="313, 266" size="106, 106" control-tag="Level" wheel-inc-value="0.01" tooltip="Wet output level" />
-    <view class="CTextLabel" origin="320.0, 374" size="92, 22" control-tag="Level" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
-    <view class="CTextLabel" origin="520, 239" size="142, 23" title="DRY" font="Label" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="ChickenKnob" origin="538, 266" size="106, 106" control-tag="Dry" wheel-inc-value="0.01" tooltip="Add unprocessed input" />
-    <view class="CTextLabel" origin="545.0, 374" size="92, 22" control-tag="Dry" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
-    <view class="CTextLabel" origin="70, 398" size="136, 23" title="WOW" font="Label" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="ChickenKnob" origin="88, 425" size="100, 100" control-tag="Wow" wheel-inc-value="0.01" tooltip="Slow, irregular transport drift" />
-    <view class="CTextLabel" origin="92.0, 527" size="92, 22" control-tag="Wow" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
-    <view class="CTextLabel" origin="295, 398" size="136, 23" title="FLUTTER" font="Label" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="ChickenKnob" origin="313, 425" size="100, 100" control-tag="Flutter" wheel-inc-value="0.01" tooltip="Fast, irregular transport jitter" />
-    <view class="CTextLabel" origin="317.0, 527" size="92, 22" control-tag="Flutter" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
-    <view class="CTextLabel" origin="520, 398" size="136, 23" title="TAPE AGE" font="Label" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="ChickenKnob" origin="538, 425" size="100, 100" control-tag="Age" wheel-inc-value="0.01" tooltip="Hiss, random crackle, dropouts and worn-tape tone" />
-    <view class="CTextLabel" origin="542.0, 527" size="92, 22" control-tag="Age" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
-    <view class="CTextLabel" origin="768, 242" size="190, 23" title="INPUT" font="Label" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="AnalogMeter" origin="768, 269" size="190, 99" control-tag="InputMeter" mouse-enabled="false" />
-    <view class="CTextLabel" origin="970, 242" size="190, 23" title="OUTPUT" font="Label" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="AnalogMeter" origin="970, 269" size="190, 99" control-tag="OutputMeter" mouse-enabled="false" />
-    <view class="CTextLabel" origin="770, 391" size="390, 23" title="OPTICAL INPUT COMPRESSOR" font="Label" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="CTextLabel" origin="759, 415" size="118, 23" title="COMPRESSION" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="ChickenKnob" origin="777, 442" size="82, 82" control-tag="OptoAmount" wheel-inc-value="0.01" tooltip="Optical peak reduction with program-dependent release" />
-    <view class="CTextLabel" origin="882, 415" size="118, 23" title="MAKEUP" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="ChickenKnob" origin="900, 442" size="82, 82" control-tag="OptoMakeup" wheel-inc-value="0.01" tooltip="Compressor output gain, before preamp and tape" />
-    <view class="CTextLabel" origin="774, 527" size="88, 22" control-tag="OptoAmount" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
-    <view class="CTextLabel" origin="898, 527" size="88, 22" control-tag="OptoMakeup" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
-    <view class="CTextLabel" origin="1030, 428" size="90, 23" title="BYPASS" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="BypassButton" origin="1044, 449" size="64, 66" control-tag="OptoBypass" tooltip="Bypass optical input compressor (lamp on = bypassed)" />
-    <view class="CTextLabel" origin="1110, 452" size="43, 23" title="GR" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="CTextLabel" origin="1105, 478" size="48, 22" control-tag="OptoGR" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
-    <view class="CTextLabel" origin="36, 555" size="93, 23" title="HPF Hz" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="ChickenKnob" origin="54, 582" size="57, 57" control-tag="HPF" wheel-inc-value="0.01" tooltip="HPF Hz" />
-    <view class="CTextLabel" origin="47, 641" size="72, 22" control-tag="HPF" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
-    <view class="CTextLabel" origin="128, 555" size="93, 23" title="HPF Q" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="ChickenKnob" origin="146, 582" size="57, 57" control-tag="HPFRes" wheel-inc-value="0.01" tooltip="HPF Q" />
-    <view class="CTextLabel" origin="139, 641" size="72, 22" control-tag="HPFRes" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
-    <view class="CTextLabel" origin="220, 555" size="93, 23" title="LPF Hz" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="ChickenKnob" origin="238, 582" size="57, 57" control-tag="LPF" wheel-inc-value="0.01" tooltip="LPF Hz" />
-    <view class="CTextLabel" origin="231, 641" size="72, 22" control-tag="LPF" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
-    <view class="CTextLabel" origin="312, 555" size="93, 23" title="LPF Q" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="ChickenKnob" origin="330, 582" size="57, 57" control-tag="LPFRes" wheel-inc-value="0.01" tooltip="LPF Q" />
-    <view class="CTextLabel" origin="323, 641" size="72, 22" control-tag="LPFRes" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
-    <view class="CTextLabel" origin="454, 555" size="93, 23" title="PREAMP" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="ChickenKnob" origin="472, 582" size="57, 57" control-tag="PreampDrive" wheel-inc-value="0.01" tooltip="PREAMP" />
-    <view class="CTextLabel" origin="465, 641" size="72, 22" control-tag="PreampDrive" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
-    <view class="CTextLabel" origin="569, 558" size="76, 23" title="MODE" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="ThreeWaySwitch" origin="582, 580" size="49, 54" control-tag="PreampMode" tooltip="Click: OFF / TUBE / TRANSISTOR" />
-    <view class="CTextLabel" origin="554, 641" size="103, 22" control-tag="PreampMode" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
-    <view class="CTextLabel" origin="714, 558" size="70, 23" title="GAIN" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="ToggleSwitch" origin="724, 582" size="49, 54" control-tag="Gain" tooltip="Click to switch high-gain tape drive" />
-    <view class="CTextLabel" origin="713, 641" size="72, 22" control-tag="Gain" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
-    <view class="CTextLabel" origin="817, 558" size="70, 23" title="SHIFT" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="ThreeWaySwitch" origin="827, 582" size="49, 54" control-tag="Shift" tooltip="Click to change tape emphasis" />
-    <view class="CTextLabel" origin="816, 641" size="72, 22" control-tag="Shift" font="Value" font-color="Amber" back-color="Black" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
-    <view class="CTextLabel" origin="939, 562" size="90, 23" title="BYPASS" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="BypassButton" origin="954, 583" size="61, 62" control-tag="Bypass" tooltip="Bypass the whole plugin (lamp on = bypassed)" />
-    <view class="CTextLabel" origin="1033, 561" size="120, 23" title="UI SIZE" font="Small" font-color="Amber" transparent="true" text-alignment="center" mouse-enabled="false" />
-    <view class="CTextButton" origin="1040, 590" size="54, 24" title="75%" font="Small" control-tag="Zoom75" text-color="Cream" text-color-highlighted="Amber" frame-color="Border" frame-width="1" round-radius="4" kick-style="true" transparent="true" tooltip="GUI scale 75%" />
-    <view class="CTextButton" origin="1100, 590" size="54, 24" title="100%" font="Small" control-tag="Zoom100" text-color="Cream" text-color-highlighted="Amber" frame-color="Border" frame-width="1" round-radius="4" kick-style="true" transparent="true" tooltip="GUI scale 100%" />
-    <view class="CTextButton" origin="1040, 620" size="54, 24" title="125%" font="Small" control-tag="Zoom125" text-color="Cream" text-color-highlighted="Amber" frame-color="Border" frame-width="1" round-radius="4" kick-style="true" transparent="true" tooltip="GUI scale 125%" />
-    <view class="CTextButton" origin="1100, 620" size="54, 24" title="150%" font="Small" control-tag="Zoom150" text-color="Cream" text-color-highlighted="Amber" frame-color="Border" frame-width="1" round-radius="4" kick-style="true" transparent="true" tooltip="GUI scale 150%" />
+  <template name="view" class="CViewContainer" origin="0, 0" size="1040, 640" minSize="728, 448" maxSize="1560, 960" transparent="false" tooltip="Jerzy Tape Drive">
+    <view class="OxidizedPanel" origin="0, 0" size="1040, 640" mouse-enabled="false" />
+    <view class="HardwarePanel" origin="0, 0" size="1040, 640" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="34, 20" size="470, 36" title="JERZY TAPE DRIVE" font="Title" font-color="Cream" transparent="true" text-alignment="left" mouse-enabled="false" />
+    <view class="CTextLabel" origin="665, 24" size="340, 24" title="VECTOR 1.2  •  DEEP TAPE / OPTO" font="Small" font-color="Amber" transparent="true" text-alignment="right" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="42, 78" size="530, 22" title="TAPE / TRANSPORT" font="Section" font-color="Amber" transparent="true" text-alignment="left" mouse-enabled="false" />
+    <view class="CTextLabel" origin="625, 78" size="350, 22" title="METERS / OPTICAL INPUT COMPRESSOR" font="Section" font-color="Amber" transparent="true" text-alignment="left" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="56, 108" size="126, 20" title="DRIVE" font="Label" font-color="Cream" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="68, 130" size="102, 102" control-tag="Sat" wheel-inc-value="0.01" tooltip="Tape saturation and magnetic drive" />
+    <view class="CTextLabel" origin="82, 234" size="74, 20" control-tag="Sat" font="Value" font-color="Amber" back-color="ValueBack" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="230, 108" size="126, 20" title="OUTPUT" font="Label" font-color="Cream" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="242, 130" size="102, 102" control-tag="Level" wheel-inc-value="0.01" tooltip="Processed output level" />
+    <view class="CTextLabel" origin="256, 234" size="74, 20" control-tag="Level" font="Value" font-color="Amber" back-color="ValueBack" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="404, 108" size="126, 20" title="DRY" font="Label" font-color="Cream" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="416, 130" size="102, 102" control-tag="Dry" wheel-inc-value="0.01" tooltip="Add original signal in parallel" />
+    <view class="CTextLabel" origin="430, 234" size="74, 20" control-tag="Dry" font="Value" font-color="Amber" back-color="ValueBack" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="59, 267" size="118, 18" title="WOW" font="Label" font-color="Cream" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="75, 287" size="86, 86" control-tag="Wow" wheel-inc-value="0.01" tooltip="Slow reel/capstan drift plus random transport movement" />
+    <view class="CTextLabel" origin="82, 375" size="72, 20" control-tag="Wow" font="Value" font-color="Amber" back-color="ValueBack" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="234, 267" size="118, 18" title="FLUTTER" font="Label" font-color="Cream" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="250, 287" size="86, 86" control-tag="Flutter" wheel-inc-value="0.01" tooltip="Fast capstan jitter with correlated irregularity" />
+    <view class="CTextLabel" origin="257, 375" size="72, 20" control-tag="Flutter" font="Value" font-color="Amber" back-color="ValueBack" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="409, 267" size="118, 18" title="TAPE AGE" font="Label" font-color="Cream" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="425, 287" size="86, 86" control-tag="Age" wheel-inc-value="0.01" tooltip="Wear: scrape flutter, HF loss, dropouts, slips, hiss, crackle and thumps" />
+    <view class="CTextLabel" origin="432, 375" size="72, 20" control-tag="Age" font="Value" font-color="Amber" back-color="ValueBack" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="618, 107" size="176, 18" title="INPUT" font="Label" font-color="Cream" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="AnalogMeter" origin="618, 129" size="176, 88" control-tag="InputMeter" mouse-enabled="false" />
+    <view class="CTextLabel" origin="815, 107" size="176, 18" title="OUTPUT" font="Label" font-color="Cream" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="AnalogMeter" origin="815, 129" size="176, 88" control-tag="OutputMeter" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="620, 239" size="110, 18" title="COMPRESSION" font="Small" font-color="Muted" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="633, 258" size="84, 84" control-tag="OptoAmount" wheel-inc-value="0.01" tooltip="Program-dependent optical gain reduction; deeper settings also drive the color stage" />
+    <view class="CTextLabel" origin="639, 344" size="72, 20" control-tag="OptoAmount" font="Value" font-color="Amber" back-color="ValueBack" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="746, 239" size="110, 18" title="MAKEUP" font="Small" font-color="Muted" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="759, 258" size="84, 84" control-tag="OptoMakeup" wheel-inc-value="0.01" tooltip="Optical compressor output amplifier gain" />
+    <view class="CTextLabel" origin="765, 344" size="72, 20" control-tag="OptoMakeup" font="Value" font-color="Amber" back-color="ValueBack" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="875, 239" size="82, 18" title="BYPASS" font="Small" font-color="Muted" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="BypassButton" origin="884, 264" size="64, 68" control-tag="OptoBypass" tooltip="Bypass optical cell and its tube/transformer colour" />
+    <view class="CTextLabel" origin="956, 249" size="42, 18" title="GR" font="Small" font-color="Muted" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="CTextLabel" origin="952, 273" size="50, 22" control-tag="OptoGR" font="Value" font-color="Amber" back-color="ValueBack" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+    <view class="CTextLabel" origin="860, 348" size="138, 36" title="T4-style memory\n+ coloured output amp" font="Small" font-color="Muted" transparent="true" text-alignment="center" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="42, 420" size="950, 22" title="TONE / PREAMP / MASTER" font="Section" font-color="Amber" transparent="true" text-alignment="left" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="42, 455" size="82, 18" title="HPF Hz" font="Small" font-color="Muted" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="53, 475" size="60, 60" control-tag="HPF" wheel-inc-value="0.01" tooltip="High-pass filter frequency" />
+    <view class="CTextLabel" origin="47, 538" size="72, 19" control-tag="HPF" font="Value" font-color="Amber" back-color="ValueBack" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="137, 455" size="82, 18" title="HPF Q" font="Small" font-color="Muted" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="148, 475" size="60, 60" control-tag="HPFRes" wheel-inc-value="0.01" tooltip="High-pass resonance" />
+    <view class="CTextLabel" origin="142, 538" size="72, 19" control-tag="HPFRes" font="Value" font-color="Amber" back-color="ValueBack" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="232, 455" size="82, 18" title="LPF Hz" font="Small" font-color="Muted" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="243, 475" size="60, 60" control-tag="LPF" wheel-inc-value="0.01" tooltip="Low-pass filter frequency" />
+    <view class="CTextLabel" origin="237, 538" size="72, 19" control-tag="LPF" font="Value" font-color="Amber" back-color="ValueBack" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="327, 455" size="82, 18" title="LPF Q" font="Small" font-color="Muted" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="338, 475" size="60, 60" control-tag="LPFRes" wheel-inc-value="0.01" tooltip="Low-pass resonance" />
+    <view class="CTextLabel" origin="332, 538" size="72, 19" control-tag="LPFRes" font="Value" font-color="Amber" back-color="ValueBack" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="438, 455" size="100, 18" title="PREAMP DRIVE" font="Small" font-color="Muted" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="ChickenKnob" origin="458, 469" size="60, 60" control-tag="PreampDrive" wheel-inc-value="0.01" tooltip="Preamp saturation amount" />
+    <view class="CTextLabel" origin="452, 538" size="72, 19" control-tag="PreampDrive" font="Value" font-color="Amber" back-color="ValueBack" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="555, 455" size="88, 18" title="PREAMP" font="Small" font-color="Muted" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="LedThreeWaySwitch" origin="574, 478" size="50, 52" control-tag="PreampMode" tooltip="OFF / TUBE / TRANSISTOR" />
+    <view class="CTextLabel" origin="547, 538" size="104, 19" control-tag="PreampMode" font="Value" font-color="Amber" back-color="ValueBack" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="662, 455" size="72, 18" title="GAIN" font="Small" font-color="Muted" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="LedToggleSwitch" origin="673, 478" size="50, 52" control-tag="Gain" tooltip="High-gain tape drive" />
+    <view class="CTextLabel" origin="662, 538" size="72, 19" control-tag="Gain" font="Value" font-color="Amber" back-color="ValueBack" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="750, 455" size="72, 18" title="SHIFT" font="Small" font-color="Muted" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="LedThreeWaySwitch" origin="761, 478" size="50, 52" control-tag="Shift" tooltip="Tape emphasis / voicing" />
+    <view class="CTextLabel" origin="750, 538" size="72, 19" control-tag="Shift" font="Value" font-color="Amber" back-color="ValueBack" frame-color="Border" frame-width="1" text-alignment="center" transparent="false" mouse-enabled="false" />
+
+    <view class="CTextLabel" origin="835, 455" size="84, 18" title="MASTER" font="Small" font-color="Muted" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="BypassButton" origin="845, 473" size="64, 68" control-tag="Bypass" tooltip="Bypass the complete Tape Drive" />
+
+    <view class="CTextLabel" origin="919, 455" size="88, 18" title="UI SCALE" font="Small" font-color="Muted" transparent="true" text-alignment="center" mouse-enabled="false" />
+    <view class="CTextButton" origin="918, 479" size="42, 23" title="70%" font="Small" control-tag="Zoom75" text-color="Cream" text-color-highlighted="Amber" frame-color="Border" frame-width="1" round-radius="4" kick-style="true" transparent="true" tooltip="GUI scale 70%" />
+    <view class="CTextButton" origin="965, 479" size="42, 23" title="85%" font="Small" control-tag="Zoom100" text-color="Cream" text-color-highlighted="Amber" frame-color="Border" frame-width="1" round-radius="4" kick-style="true" transparent="true" tooltip="GUI scale 85%" />
+    <view class="CTextButton" origin="918, 508" size="42, 23" title="100%" font="Small" control-tag="Zoom125" text-color="Cream" text-color-highlighted="Amber" frame-color="Border" frame-width="1" round-radius="4" kick-style="true" transparent="true" tooltip="GUI scale 100%" />
+    <view class="CTextButton" origin="965, 508" size="42, 23" title="125%" font="Small" control-tag="Zoom150" text-color="Cream" text-color-highlighted="Amber" frame-color="Border" frame-width="1" round-radius="4" kick-style="true" transparent="true" tooltip="GUI scale 125%" />
+
+    <view class="CTextLabel" origin="42, 585" size="965, 24" title="Right-click any knob or switch to return it to the default value  •  Vector rendering  •  Host automation / FL Studio ready" font="Small" font-color="Muted" transparent="true" text-alignment="left" mouse-enabled="false" />
   </template>
   <control-tags>
     <control-tag name="Sat" tag="300" />
