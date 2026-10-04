@@ -1,0 +1,41 @@
+name: Build Tape Drive VST3 Windows
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        shell: pwsh
+        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DSMTG_CREATE_PLUGIN_LINK=0
+      - name: Build Release
+        shell: pwsh
+        run: cmake --build build --config Release --target JerzyTapeDrive TapeDriveDSPTests TapeDriveGUITests --parallel
+      - name: Test DSP and GUI
+        shell: pwsh
+        run: ctest --test-dir build -C Release --verbose --output-on-failure -R "^(TapeDriveDSP|TapeDriveGUI)$"
+      - name: Package
+        shell: pwsh
+        run: |
+          $plugin = Get-ChildItem -Path build -Recurse -Directory -Filter "JerzyTapeDrive.vst3" | Select-Object -First 1
+          if (-not $plugin) { throw "JerzyTapeDrive.vst3 was not produced" }
+          New-Item -ItemType Directory -Force artifact | Out-Null
+          Copy-Item -Recurse -Force $plugin.FullName artifact/JerzyTapeDrive.vst3
+          Compress-Archive -Path artifact/JerzyTapeDrive.vst3 -DestinationPath JerzyTapeDrive_Windows_x64.zip -Force
+      - name: Upload Tape Drive
+        uses: actions/upload-artifact@v4
+        with:
+          name: JerzyTapeDrive-Windows-x64
+          path: |
+            artifact/JerzyTapeDrive.vst3
+            JerzyTapeDrive_Windows_x64.zip
+          if-no-files-found: error
+          retention-days: 90
