@@ -1,12 +1,14 @@
 #include "tapedrive_processor.h"
 #include "tapedrive_ids.h"
 #include "tapedrive_state.h"
+#include "tapedrive_automation.h"
 #include "base/source/fstreamer.h"
 #include "pluginterfaces/vst/ivstparameterchanges.h"
 #include "pluginterfaces/vst/vstspeaker.h"
 #include <algorithm>
 #include <cmath>
 #include <cstring>
+#include <type_traits>
 
 using namespace Steinberg; using namespace Steinberg::Vst;
 namespace JerzyAudio {
@@ -46,38 +48,6 @@ tresult PLUGIN_API TapeDriveProcessor::canProcessSampleSize(int32 s){
  return(s==kSample32||s==kSample64)?kResultTrue:kResultFalse;
 }
 
-void TapeDriveProcessor::readChanges(IParameterChanges* c){
- if(!c)return;
- for(int32 i=0;i<c->getParameterCount();++i) if(auto*q=c->getParameterData(i)){
-  int32 n=q->getPointCount(); if(n<=0)continue;
-  int32 off=0; ParamValue v=0;
-  if(q->getPoint(n-1,off,v)!=kResultTrue)continue;
-  if(!std::isfinite(v))continue;
-  v=std::clamp(v,0.0,1.0);
-  switch(q->getParameterId()){
-   case kSatId:p.sat=v;break;
-   case kLevelId:p.level=v;break;
-   case kDryId:p.dry=v;break;
-   case kGainModeId:p.gainMode=v;break;
-   case kShiftId:p.shift=v;break;
-   case kDriveBypassId:p.bypass=v;break;
-   case kHPFCutoffId:p.hpfCutoff=v;break;
-   case kHPFResId:p.hpfRes=v;break;
-   case kLPFCutoffId:p.lpfCutoff=v;break;
-   case kLPFResId:p.lpfRes=v;break;
-   case kWowFlutterId:p.wowFlutter=v;break;
-   case kPreampModeId:p.preampMode=v;break;
-   case kPreampDriveId:p.preampDrive=v;break;
-   case kFlutterId:p.flutter=v;break;
-   case kTapeAgeId:p.tapeAge=v;break;
-   case kOptoAmountId:p.optoAmount=v;break;
-   case kOptoMakeupId:p.optoMakeup=v;break;
-   case kOptoBypassId:p.optoBypass=v;break;
-   default:break;
-  }
- }
-}
-
 void TapeDriveProcessor::sendMeters(ProcessData& d,double inPk,double satPk,double outPk,double grPk){
  const double decay=std::exp(-std::max(0,d.numSamples)/(0.30*sr));
  const auto smooth=[decay](double value,double oldValue){
@@ -103,42 +73,39 @@ void TapeDriveProcessor::sendMeters(ProcessData& d,double inPk,double satPk,doub
 }
 
 tresult PLUGIN_API TapeDriveProcessor::process(ProcessData& d){
- readChanges(d.inputParameterChanges);
- if(d.numInputs==0||d.numOutputs==0||d.numSamples<=0){
-  sendMeters(d,0,0,0,0);
-  return kResultOk;
- }
-
- int ch=std::min(d.inputs[0].numChannels,d.outputs[0].numChannels); if(ch<=0)return kResultOk;
- const bool bp=p.bypass>=0.5;
-
  double inPk=0.0,satPk=0.0,outPk=0.0,grPk=0.0;
-
- if(d.symbolicSampleSize==kSample32){
-  auto**in=d.inputs[0].channelBuffers32; auto**out=d.outputs[0].channelBuffers32;
-  if(bp){
-   for(int c=0;c<ch;++c){
-    if(in[c]&&out[c]&&in[c]!=out[c]) std::memcpy(out[c],in[c],sizeof(float)*(size_t)d.numSamples);
-    if(in[c]) for(int i=0;i<d.numSamples;++i) inPk=std::max(inPk,std::abs((double)in[c][i]));
-    if(out[c]) for(int i=0;i<d.numSamples;++i) outPk=std::max(outPk,std::abs((double)out[c][i]));
-   }
-  }else{
-   dsp32.process(in,out,ch,d.numSamples,p,inPk,satPk,outPk,grPk);
-  }
- }else if(d.symbolicSampleSize==kSample64){
-  auto**in=d.inputs[0].channelBuffers64; auto**out=d.outputs[0].channelBuffers64;
-  if(bp){
-   for(int c=0;c<ch;++c){
-    if(in[c]&&out[c]&&in[c]!=out[c]) std::memcpy(out[c],in[c],sizeof(double)*(size_t)d.numSamples);
-    if(in[c]) for(int i=0;i<d.numSamples;++i) inPk=std::max(inPk,std::abs(in[c][i]));
-    if(out[c]) for(int i=0;i<d.numSamples;++i) outPk=std::max(outPk,std::abs(out[c][i]));
-   }
-  }else{
-   dsp64.process(in,out,ch,d.numSamples,p,inPk,satPk,outPk,grPk);
-  }
- }
-
- d.outputs[0].silenceFlags=0;
+ const int ch=(d.numInputs>0 && d.numOutputs>0)
+     ?std::clamp(std::min(d.inputs[0].numChannels,d.outputs[0].numChannels),0,2):0;
+ // Parameter-only flushes still consume every point without touching audio.
+ processTapeDriveAutomation(d.inputParameterChanges,p,std::max(0,d.numSamples),
+     [&](int32 start,int32 count){
+      if(ch==0)return;
+      double segIn=0.0,segSat=0.0,segOut=0.0,segGr=0.0;
+      const auto render=[&](auto** input,auto** output,auto& dsp){
+       using Sample=std::remove_pointer_t<std::remove_pointer_t<decltype(input)>>;
+       const Sample* in[2]{};Sample* out[2]{};
+       for(int c=0;c<ch;++c){
+        in[c]=input && input[c]?input[c]+start:nullptr;
+        out[c]=output && output[c]?output[c]+start:nullptr;
+       }
+       if(p.bypass>=0.5){
+        for(int c=0;c<ch;++c){
+         if(in[c] && out[c] && in[c]!=out[c])std::memcpy(out[c],in[c],sizeof(Sample)*count);
+         for(int i=0;i<count;++i){
+          if(in[c])segIn=std::max(segIn,std::abs(static_cast<double>(in[c][i])));
+          if(out[c])segOut=std::max(segOut,std::abs(static_cast<double>(out[c][i])));
+         }
+        }
+       }else dsp.process(in,out,ch,count,p,segIn,segSat,segOut,segGr);
+      };
+      if(d.symbolicSampleSize==kSample32)
+       render(d.inputs[0].channelBuffers32,d.outputs[0].channelBuffers32,dsp32);
+      else if(d.symbolicSampleSize==kSample64)
+       render(d.inputs[0].channelBuffers64,d.outputs[0].channelBuffers64,dsp64);
+      inPk=std::max(inPk,segIn);satPk=std::max(satPk,segSat);
+      outPk=std::max(outPk,segOut);grPk=std::max(grPk,segGr);
+     });
+ if(d.numOutputs>0 && d.numSamples>0)d.outputs[0].silenceFlags=0;
  sendMeters(d,inPk,satPk,outPk,grPk);
  return kResultOk;
 }

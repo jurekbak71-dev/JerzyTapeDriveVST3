@@ -46,6 +46,10 @@ include(CTest)
 if(BUILD_TESTING)
     add_executable(TapeDriveDSPTests tests/tapedrive_test.cpp)
     add_test(NAME TapeDriveDSP COMMAND TapeDriveDSPTests)
+    add_executable(TapeDriveAutomationTests
+        tests/tapedrive_automation_test.cpp source/tapedrive_processor.cpp)
+    target_link_libraries(TapeDriveAutomationTests PRIVATE sdk)
+    add_test(NAME TapeDriveAutomation COMMAND TapeDriveAutomationTests)
 endif()
 
 if(BUILD_TESTING AND WIN32)

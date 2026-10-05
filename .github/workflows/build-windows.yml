@@ -33,9 +33,9 @@ jobs:
       - name: DSP and native GUI regression tests
         shell: pwsh
         run: |
-          cmake --build build --config Release --target TapeDriveDSPTests TapeDriveGUITests --parallel
+          cmake --build build --config Release --target TapeDriveDSPTests TapeDriveGUITests TapeDriveAutomationTests --parallel
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          ctest --test-dir build -C Release --verbose --output-on-failure -R "^(TapeDriveDSP|TapeDriveGUI)$"
+          ctest --test-dir build -C Release --verbose --output-on-failure -R "^(TapeDriveDSP|TapeDriveGUI|TapeDriveAutomation)$"
 
       - name: Upload GUI render evidence
         if: always()

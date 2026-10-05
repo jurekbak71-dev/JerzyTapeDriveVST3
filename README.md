@@ -38,3 +38,7 @@ ctest --test-dir build -C Release --output-on-failure
 Workflow **Build TapeDrive Windows VST3** buduje Windows x64, uruchamia test DSP oraz natywny test GUI i publikuje artefakt **JerzyTapeDrive-Windows-x64**.
 
 Repozytorium zawiera wyłącznie Tape Drive.
+
+## Automatyzacja VST3
+
+Procesor odczytuje wszystkie punkty automatyzacji i respektuje ich pozycje w próbkach. Parametry ciągłe są interpolowane liniowo zgodnie z VST3 (z poprzednią wartością przy pozycji -1), a przełączniki zmieniają stan przy wskazanej próbce. Bloki bez zmian są przetwarzane w całości; obsługa kolejek nie alokuje pamięci w wątku audio. Test `TapeDriveAutomation` sprawdza przebiegi i skoki, granice bloków, bypass, mono/stereo, float/double, bufor in-place oraz aktualizacje bez audio.
