@@ -28,8 +28,10 @@ smtg_add_vst3plugin(JerzyTapeDrive
     source/version.h source/tapedrive_ids.h source/tapedrive_params.h source/tapedrive_state.h
     source/tapedrive_dsp.h source/tapedrive_processor.h source/tapedrive_processor.cpp
     source/tapedrive_controller.h source/tapedrive_controller.cpp source/tapedrive_editor_geometry.h
-    source/tapedrive_editor.h source/tapedrive_editor.cpp source/tapedrive_gui_views.h
-    source/tapedrive_gui_views.cpp source/tapedrive_entry.cpp resource/tapedrive_vintage.uidesc
+    source/tapedrive_editor.h source/tapedrive_editor.cpp
+    source/jerzy_vst_gui_kit.h source/jerzy_vst_gui_kit.cpp
+    source/tapedrive_gui_views.h source/tapedrive_gui_views.cpp
+    source/tapedrive_entry.cpp resource/tapedrive_vintage.uidesc
 )
 target_link_libraries(JerzyTapeDrive PRIVATE sdk vstgui_support)
 if(WIN32)
