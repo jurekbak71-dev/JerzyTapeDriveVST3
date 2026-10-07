@@ -45,3 +45,5 @@ Procesor odczytuje wszystkie punkty automatyzacji i respektuje ich pozycje w pr√
 
 
 <!-- Jerzy VST GUI System CI validation -->
+
+<!-- Jerzy GUI validation pass 2 -->
