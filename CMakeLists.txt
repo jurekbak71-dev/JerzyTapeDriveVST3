@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.25)
-project(JerzyTapeDrive VERSION 1.2.1.0 DESCRIPTION "Jerzy Tape Drive VST3")
+project(JerzyTapeDrive VERSION 1.2.2.0 DESCRIPTION "Jerzy Tape Drive VST3")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
