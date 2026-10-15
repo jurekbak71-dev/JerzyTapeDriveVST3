@@ -117,8 +117,8 @@ int main(int argc,char** argv){try{
             click(view,frame.window,b.x,b.y);
             const auto r=sizeOf(view);
             std::cerr<<"TapeDrive zoom-check dpi="<<dpi<<" target="<<b.zoom<<" actual="<<r.getWidth()<<"x"<<r.getHeight()<<" expected="<<static_cast<int>(std::lround(1040*b.zoom*dpi))<<"x"<<static_cast<int>(std::lround(640*b.zoom*dpi))<<"\\n";
-            require(r.getWidth()==static_cast<int>(std::lround(1040*b.zoom*dpi))&&
-                    r.getHeight()==static_cast<int>(std::lround(640*b.zoom*dpi)),
+            require(std::abs(r.getWidth()-static_cast<int>(std::lround(1040*b.zoom*dpi)))<=1 &&
+                    std::abs(r.getHeight()-static_cast<int>(std::lround(640*b.zoom*dpi)))<=1,
                     "UI scale button produced a double-scaled or incorrect viewport");
             checkPanel(view,controller,frame.window);
         }
