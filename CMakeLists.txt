@@ -58,7 +58,7 @@ endif()
 if(BUILD_TESTING AND WIN32)
     target_sources(JerzyTapeDrive PRIVATE tests/tapedrive_render_probe.cpp)
     add_executable(TapeDriveGUITests
-        tests/tapedrive_gui_test.cpp
+        tests/native_gui_smoke.cpp
         ${JERZY_VST3_SDK_DIR}/public.sdk/source/vst/hosting/module_win32.cpp
     )
     target_compile_definitions(TapeDriveGUITests PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)
