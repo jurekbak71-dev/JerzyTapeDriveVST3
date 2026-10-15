@@ -65,6 +65,10 @@ int main(int argc,char** argv) {
   SendMessageW(child,WM_PRINTCLIENT,reinterpret_cast<WPARAM>(capture),PRF_CLIENT);
   const COLORREF background=GetPixel(capture,3,3),banner=GetPixel(capture,3,102),
                  card=GetPixel(capture,30,145);
+  std::cerr<<"GDI capture: background="<<std::hex<<background
+           <<" banner="<<banner<<" card="<<card<<std::dec
+           <<" expected="<<RGB(13,21,26)<<" visibility="<<IsWindowVisible(child)
+           <<" size="<<cr.right<<"x"<<cr.bottom<<"\\n";
   SelectObject(capture,previous);DeleteObject(bitmap);DeleteDC(capture);
   ReleaseDC(child,dc);
   require(background==RGB(13,21,26),"Native GUI background did not paint");
