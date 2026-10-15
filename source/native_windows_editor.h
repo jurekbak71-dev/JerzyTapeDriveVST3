@@ -221,7 +221,7 @@ private:
         if(!editing_||active_<0)return;
         // Vertical drag from current value, with fine adjustment with Shift.
         const double sensitivity=(GetKeyState(VK_SHIFT)<0)?0.001:0.005;
-        sendValue(active_,gestureStart_+(startY_-y)*sensitivity+(x-startX)*sensitivity*0.20);
+        sendValue(active_,gestureStart_+(startY_-y)*sensitivity+(x-startX_)*sensitivity*0.20);
     }
     void drawCard(HDC dc,int slot) {
         int index=page_*kPerPage+slot;
@@ -310,21 +310,21 @@ private:
             return 0;
         case WM_LBUTTONDOWN: {
             RECT r{};GetClientRect(hwnd,&r);
-            self->pointerDown(GET_X_LPARAM(l)*kWidth/std::max(1,r.right),
-                              GET_Y_LPARAM(l)*kHeight/std::max(1,r.bottom),false);
+            self->pointerDown(GET_X_LPARAM(l)*kWidth/std::max(1,static_cast<int>(r.right)),
+                              GET_Y_LPARAM(l)*kHeight/std::max(1,static_cast<int>(r.bottom)),false);
             return 0;
         }
         case WM_RBUTTONDOWN: {
             RECT r{};GetClientRect(hwnd,&r);
-            self->pointerDown(GET_X_LPARAM(l)*kWidth/std::max(1,r.right),
-                              GET_Y_LPARAM(l)*kHeight/std::max(1,r.bottom),true);
+            self->pointerDown(GET_X_LPARAM(l)*kWidth/std::max(1,static_cast<int>(r.right)),
+                              GET_Y_LPARAM(l)*kHeight/std::max(1,static_cast<int>(r.bottom)),true);
             return 0;
         }
         case WM_MOUSEMOVE:
             if(self->editing_&&(w&MK_LBUTTON)) {
                 RECT r{};GetClientRect(hwnd,&r);
-                self->pointerDrag(GET_X_LPARAM(l)*kWidth/std::max(1,r.right),
-                                  GET_Y_LPARAM(l)*kHeight/std::max(1,r.bottom));
+                self->pointerDrag(GET_X_LPARAM(l)*kWidth/std::max(1,static_cast<int>(r.right)),
+                                  GET_Y_LPARAM(l)*kHeight/std::max(1,static_cast<int>(r.bottom)));
             }
             return 0;
         case WM_LBUTTONUP:self->finishGesture();return 0;
