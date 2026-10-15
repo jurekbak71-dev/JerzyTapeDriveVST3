@@ -4,8 +4,13 @@
 #include "vstgui/lib/cgraphicstransform.h"
 #include "vstgui/lib/controls/ccontrol.h"
 #include "vstgui/lib/platform/iplatformframe.h"
+#if defined(_WIN32)
+#include "vstgui/lib/platform/platformfactory.h"
+#include "vstgui/lib/platform/win32/win32factory.h"
+#endif
 #include <algorithm>
 #include <cmath>
+#include <mutex>
 #if defined(_WIN32)
 #include <windows.h>
 #include <commctrl.h>
@@ -93,6 +98,17 @@ void PLUGIN_API TapeDriveEditor::close(){
 }
 
 bool PLUGIN_API TapeDriveEditor::open(void* parent,const VSTGUI::PlatformType& type){
+#if defined(_WIN32)
+    // Host compatibility: GPU DirectComposition surfaces can remain black in FL Studio
+    // even when the VST3 view and its XML description are valid. Choose the standard
+    // Win32 Direct2D paint path BEFORE the first VSTGUI child window is created.
+    // This changes only GUI presentation, not audio/DSP or vector UI content.
+    static std::once_flag rendererSelected;
+    std::call_once(rendererSelected, [] {
+        if (const auto* factory = VSTGUI::getPlatformFactory().asWin32Factory())
+            factory->disableDirectComposition();
+    });
+#endif
     if(!VSTGUI::VST3Editor::open(parent,type))return false;
     fitHostSize(getRect());
 #if defined(_WIN32)
