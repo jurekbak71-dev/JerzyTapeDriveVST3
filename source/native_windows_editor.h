@@ -55,11 +55,20 @@ public:
         auto result=Steinberg::Vst::EditorView::attached(parent,type);
         if(result!=Steinberg::kResultTrue && result!=Steinberg::kResultOk) return result;
 
+        // Window class belongs to THIS VST3 module, never FL Studio's EXE.
+        // Registering against the host EXE can leave a dangling WndProc after a
+        // plugin unload/reload during rescanning, causing the next GUI to fail.
+        if(!GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
+                               GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                               reinterpret_cast<LPCWSTR>(&NativeWindowsEditor::windowProc),
+                               &module_)) {
+            Steinberg::Vst::EditorView::removed(); return Steinberg::kResultFalse;
+        }
         WNDCLASSEXW wc{};
         wc.cbSize=sizeof(wc);
         wc.style=CS_DBLCLKS|CS_HREDRAW|CS_VREDRAW;
         wc.lpfnWndProc=&NativeWindowsEditor::windowProc;
-        wc.hInstance=GetModuleHandleW(nullptr);
+        wc.hInstance=module_;
         wc.hCursor=LoadCursor(nullptr,IDC_ARROW);
         wc.hbrBackground=GetSysColorBrush(COLOR_WINDOW);
         wc.lpszClassName=className_;
@@ -109,6 +118,7 @@ private:
     static constexpr int kWidth=1160,kHeight=720,kCols=4,kRows=4,kPerPage=kCols*kRows;
     static constexpr UINT_PTR kRefreshTimer=7892;
     HWND child_=nullptr;
+    HMODULE module_=nullptr;
     const wchar_t* title_;
     const wchar_t* className_;
     std::vector<Steinberg::Vst::ParameterInfo> params_;
@@ -155,6 +165,11 @@ private:
             KillTimer(child_,kRefreshTimer);
             HWND old=child_;child_=nullptr;
             DestroyWindow(old);
+        }
+        if(module_) {
+            // Only the last editor instance succeeds in unregistering a shared class.
+            UnregisterClassW(className_,module_);
+            module_=nullptr;
         }
     }
     void finishGesture() {
