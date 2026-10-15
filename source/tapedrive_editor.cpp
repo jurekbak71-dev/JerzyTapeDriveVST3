@@ -24,14 +24,14 @@ struct TapeDriveEditor::NativeResizeWatcher {
     UINT_PTR timer=0;
     RECT lastParent{},lastChild{};
     NativeResizeWatcher(TapeDriveEditor& e,void* p,void* c):editor(e),parent(static_cast<HWND>(p)),child(static_cast<HWND>(c)){
-        SetWindowSubclass(parent,callback,reinterpret_cast<UINT_PTR>(this),reinterpret_cast<DWORD_PTR>(this));
-        SetWindowSubclass(child,callback,reinterpret_cast<UINT_PTR>(this),reinterpret_cast<DWORD_PTR>(this));
+        // FL Studio owns the wrapper parent window; never subclass it.
+        if(child&&IsWindow(child))SetWindowSubclass(child,callback,reinterpret_cast<UINT_PTR>(this),reinterpret_cast<DWORD_PTR>(this));
         GetClientRect(parent,&lastParent);GetClientRect(child,&lastChild);
-        timer=SetTimer(child,reinterpret_cast<UINT_PTR>(this),100,nullptr);
+        if(child&&IsWindow(child))timer=SetTimer(child,reinterpret_cast<UINT_PTR>(this),250,nullptr);
     }
     ~NativeResizeWatcher(){
         if(child&&timer)KillTimer(child,timer);
-        if(parent)RemoveWindowSubclass(parent,callback,reinterpret_cast<UINT_PTR>(this));
+        // Parent HWND is host-owned and was never subclassed.
         if(child)RemoveWindowSubclass(child,callback,reinterpret_cast<UINT_PTR>(this));
     }
     void fit(HWND window){
@@ -53,10 +53,10 @@ struct TapeDriveEditor::NativeResizeWatcher {
         if(editor.applyingSize||!parent||!child)return;
         RECT p{},c{};
         if(!GetClientRect(parent,&p)||!GetClientRect(child,&c))return;
-        const bool parentChanged=p.right!=lastParent.right||p.bottom!=lastParent.bottom;
+        // FL Studio may have a transient 1x1 wrapper while initializing.
+        // Use the actual child viewport; never scale to the parent's controls.
         const bool childChanged=c.right!=lastChild.right||c.bottom!=lastChild.bottom;
-        if(parentChanged)fit(parent);
-        else if(childChanged)fit(child);
+        if(childChanged)fit(child);
         else{
             const auto size=editor.getRect();
             const auto transform=editor.getFrame()->getTransform();
@@ -97,8 +97,13 @@ bool PLUGIN_API TapeDriveEditor::open(void* parent,const VSTGUI::PlatformType& t
     fitHostSize(getRect());
 #if defined(_WIN32)
     delete nativeWatcher;
-    nativeWatcher=new NativeResizeWatcher(*this,parent,getFrame()->getPlatformFrame()->getPlatformRepresentation());
-    nativeWatcher->fit(static_cast<HWND>(parent));
+    // Only observe the plug-in-owned child if VSTGUI produced a native frame.
+    // Never override the DAW's initial viewport from its wrapper HWND.
+    if(auto* frame=getFrame()) if(auto* platform=frame->getPlatformFrame()) {
+        auto* child=platform->getPlatformRepresentation();
+        if(parent&&child&&IsWindow(static_cast<HWND>(child)))
+            nativeWatcher=new NativeResizeWatcher(*this,parent,child);
+    }
 #endif
     return true;
 }
