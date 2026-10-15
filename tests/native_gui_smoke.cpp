@@ -55,9 +55,17 @@ int main(int argc,char** argv) {
   require(cr.right==rect.getWidth()&&cr.bottom==rect.getHeight(),
           "Plugin-owned native GUI child size mismatch");
   InvalidateRect(child,nullptr,TRUE);UpdateWindow(child);pump();
+  // GitHub Windows runners have a noninteractive desktop. Verify the
+  // plugin's real HWND WM_PRINTCLIENT GDI path, not desktop screenshots.
   HDC dc=GetDC(child);
-  const COLORREF background=GetPixel(dc,3,3),banner=GetPixel(dc,3,102),
-                 card=GetPixel(dc,30,145);
+  HDC capture=CreateCompatibleDC(dc);
+  HBITMAP bitmap=CreateCompatibleBitmap(dc,rect.getWidth(),rect.getHeight());
+  HGDIOBJ previous=SelectObject(capture,bitmap);
+  PatBlt(capture,0,0,rect.getWidth(),rect.getHeight(),WHITENESS);
+  SendMessageW(child,WM_PRINTCLIENT,reinterpret_cast<WPARAM>(capture),PRF_CLIENT);
+  const COLORREF background=GetPixel(capture,3,3),banner=GetPixel(capture,3,102),
+                 card=GetPixel(capture,30,145);
+  SelectObject(capture,previous);DeleteObject(bitmap);DeleteDC(capture);
   ReleaseDC(child,dc);
   require(background==RGB(13,21,26),"Native GUI background did not paint");
   require(banner==RGB(205,153,75),"Native GUI amber accent did not paint");
