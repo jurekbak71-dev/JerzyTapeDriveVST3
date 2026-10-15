@@ -293,7 +293,9 @@ private:
         HDC mem=CreateCompatibleDC(dc);
         HBITMAP bitmap=CreateCompatibleBitmap(dc,std::max(1,width),std::max(1,height));
         auto old=SelectObject(mem,bitmap);
+        const int oldDC=SaveDC(mem);
         render(mem,width,height);
+        RestoreDC(mem,oldDC); // BitBlt source must use device pixels, not scaled GUI coordinates.
         BitBlt(dc,0,0,width,height,mem,0,0,SRCCOPY);
         SelectObject(mem,old);DeleteObject(bitmap);DeleteDC(mem);
         EndPaint(child_,&ps);
