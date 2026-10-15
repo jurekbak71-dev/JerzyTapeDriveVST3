@@ -4,4 +4,4 @@
 #define stringCompanyName "Jerzy Audio"
 #define stringCompanyWeb ""
 #define stringCompanyEmail ""
-#define FULL_VERSION_STR "1.2.1"
+#define FULL_VERSION_STR "1.2.2"
