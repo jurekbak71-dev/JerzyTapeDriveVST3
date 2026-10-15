@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.25)
-project(JerzyTapeDrive VERSION 1.2.2.0 DESCRIPTION "Jerzy Tape Drive VST3")
+project(JerzyTapeDrive VERSION 1.3.0.0 DESCRIPTION "Jerzy Tape Drive VST3")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -28,6 +28,7 @@ smtg_add_vst3plugin(JerzyTapeDrive
     source/version.h source/tapedrive_ids.h source/tapedrive_params.h source/tapedrive_state.h
     source/tapedrive_dsp.h source/tapedrive_processor.h source/tapedrive_processor.cpp
     source/tapedrive_controller.h source/tapedrive_controller.cpp source/tapedrive_editor_geometry.h
+    source/native_windows_editor.h
     source/tapedrive_editor.h source/tapedrive_editor.cpp
     source/jerzy_vst_gui_kit.h source/jerzy_vst_gui_kit.cpp
     source/tapedrive_gui_views.h source/tapedrive_gui_views.cpp
@@ -57,7 +58,7 @@ endif()
 if(BUILD_TESTING AND WIN32)
     target_sources(JerzyTapeDrive PRIVATE tests/tapedrive_render_probe.cpp)
     add_executable(TapeDriveGUITests
-        tests/tapedrive_gui_test.cpp
+        tests/native_gui_smoke.cpp
         ${JERZY_VST3_SDK_DIR}/public.sdk/source/vst/hosting/module_win32.cpp
     )
     target_compile_definitions(TapeDriveGUITests PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)

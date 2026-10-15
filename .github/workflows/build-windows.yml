@@ -60,12 +60,12 @@ jobs:
           if (-not (Test-Path $resource)) { throw "VST3 GUI unavailable: missing tapedrive_vintage.uidesc" }
           $module = Get-ChildItem $bundle -Recurse -File -Filter "JerzyTapeDrive.vst3" | Select-Object -First 1
           if (-not $module) { throw "VST3 processor binary missing" }
-          Compress-Archive -Path $bundle -DestinationPath JerzyTapeDrive_Windows_x64.zip -Force
+          # No inner ZIP: GitHub's artifact is already a ZIP containing the .vst3 directory.
 
       - name: Upload Tape Drive
         uses: actions/upload-artifact@v4
         with:
           name: JerzyTapeDrive-Windows-x64
           path: |
-            JerzyTapeDrive_Windows_x64.zip
+            artifact
           if-no-files-found: error
