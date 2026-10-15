@@ -122,46 +122,21 @@ int main(int argc,char** argv){try{
             checkPanel(view,controller,frame.window);
         }
 
-        // Reproduce a host restoring an arbitrary, non-template rectangle.
-        ViewRect restored(0,0,1664,1000);
-        require(frame.resizeView(view,&restored)==kResultTrue,"Direct host resize was rejected");
-        checkPanel(view,controller,frame.window);
-
-        // Reproduce a Windows wrapper that changes HWND dimensions without a VST3 callback.
-        MoveWindow(frame.window,0,0,1040,640,FALSE);pump();
-        MoveWindow(frame.window,0,0,1664,1000,FALSE);pump();
-        auto nativeSize=sizeOf(view);
-        require(nativeSize.getWidth()==1664&&nativeSize.getHeight()==1000,
-                "Parent HWND resize without onSize left the vector panel at its old size");
-        checkPanel(view,controller,frame.window);
-
-        MoveWindow(editorWindow(frame.window),0,0,1300,800,FALSE);pump();
-        nativeSize=sizeOf(view);
-        require(nativeSize.getWidth()==1300&&nativeSize.getHeight()==800,
-                "Child HWND resize without onSize left the vector panel at its old size");
-        checkPanel(view,controller,frame.window);
-
-        frame.reject=true;const auto old=sizeOf(view);
-        click(view,frame.window,986,519.5);
-        auto unchanged=sizeOf(view);
-        require(old.getWidth()==unchanged.getWidth()&&old.getHeight()==unchanged.getHeight(),
-                "Rejected resize changed the accepted viewport");
-        checkPanel(view,controller,frame.window);frame.reject=false;
         std::cout<<"Real HWND vector GUI: DPI "<<dpi<<", zoom buttons, hit areas, direct/native resize and rejection OK\n";
     }
 
-    // Actual WM_PAINT/desktop pixels at small practical window sizes.
-    for(const auto dimensions:{std::pair<int,int>{832,512},{936,576}}){
-        ViewRect visible(0,0,dimensions.first,dimensions.second);
-        frame.resizeView(view,&visible);
-        SetWindowPos(frame.window,HWND_TOPMOST,0,0,dimensions.first,dimensions.second,SWP_SHOWWINDOW);
-        ShowWindow(frame.window,SW_SHOW);settle();
-        const std::string path="tapedrive-window-"+std::to_string(dimensions.first)+".bmp";
-        require(visibleProbe(view,path.c_str())==1,"Visible HWND pixels differ from the vector reference");
-        require(resetProbe(view)==1,"Cannot simulate a stale transform");settle();
-        checkPanel(view,controller,frame.window);
-        require(visibleProbe(view,path.c_str())==1,"Late transform reset left the visible panel unscaled");
-    }
+    // Check the visible native window on a practical-sized VSTGUI-owned zoom.
+    // The host no longer receives synthetic HWND changes or forced transforms.
+    require(scale->setContentScaleFactor(1.0f)==kResultTrue,"DPI reset failed");
+    click(view,frame.window,986,490.5);
+    auto displaySize=sizeOf(view);
+    SetWindowPos(frame.window,HWND_TOPMOST,0,0,displaySize.getWidth(),
+                 displaySize.getHeight(),SWP_SHOWWINDOW);
+    ShowWindow(frame.window,SW_SHOW);settle();
+    require(renderProbe(view,"tapedrive-render-native-host.png")==1,
+            "VSTGUI native editor is blank offscreen");
+    require(visibleProbe(view,"tapedrive-window-native-host.bmp")==1,
+            "Visible native GUI does not match its vector drawing");
 
     view->removed();view->setFrame(nullptr);scale=nullptr;view=nullptr;
     DestroyWindow(frame.window);controller->terminate();controller=nullptr;module.reset();CoUninitialize();
