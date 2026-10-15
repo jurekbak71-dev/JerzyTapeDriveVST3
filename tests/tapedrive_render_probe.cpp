@@ -6,11 +6,15 @@
 #include "vstgui/lib/coffscreencontext.h"
 #include "vstgui/lib/cbitmap.h"
 #include "vstgui/lib/platform/platformfactory.h"
+#include "vstgui/lib/platform/win32/win32factory.h"
 #include <fstream>
 #include <iostream>
 extern "C" __declspec(dllexport) int __cdecl JerzyRenderEditorForTest(Steinberg::IPlugView* view,const char* path){
     auto* editor=dynamic_cast<JerzyAudio::TapeDriveEditor*>(view);
     if(!editor || !editor->getFrame())return 0;
+    // Ensure this FL Studio fallback really uses the non-composited Windows renderer.
+    const auto* winFactory=VSTGUI::getPlatformFactory().asWin32Factory();
+    if(!winFactory || winFactory->getDirectCompositionFactory())return 0;
     auto* frame=editor->getFrame();
     const auto rect=frame->getViewSize();
     auto context=VSTGUI::COffscreenContext::create({rect.getWidth(),rect.getHeight()});
