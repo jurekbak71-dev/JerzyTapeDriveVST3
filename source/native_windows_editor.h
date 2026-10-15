@@ -294,6 +294,12 @@ private:
         if(!self)return DefWindowProcW(hwnd,msg,w,l);
         switch(msg) {
         case WM_PAINT:self->paint();return 0;
+        case WM_PRINTCLIENT: {
+            RECT bounds{};GetClientRect(hwnd,&bounds);
+            self->render(reinterpret_cast<HDC>(w),
+                         static_cast<int>(bounds.right),static_cast<int>(bounds.bottom));
+            return 0;
+        }
         case WM_ERASEBKGND:return 1;
         case WM_TIMER:
             if(w==kRefreshTimer) {
