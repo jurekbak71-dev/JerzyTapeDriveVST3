@@ -54,13 +54,18 @@ jobs:
           $drive = Get-ChildItem -Path build -Recurse -Directory -Filter "JerzyTapeDrive.vst3" | Select-Object -First 1
           if (-not $drive) { throw "JerzyTapeDrive.vst3 was not produced" }
           Copy-Item -Recurse -Force $drive.FullName artifact/JerzyTapeDrive.vst3
-          Compress-Archive -Path artifact/JerzyTapeDrive.vst3 -DestinationPath JerzyTapeDrive_Windows_x64.zip -Force
+          # Ship the complete VST3 bundle. The UI's UIDescription must be present.
+          $bundle = "artifact/JerzyTapeDrive.vst3"
+          $resource = Join-Path $bundle "Contents/Resources/tapedrive_vintage.uidesc"
+          if (-not (Test-Path $resource)) { throw "VST3 GUI unavailable: missing tapedrive_vintage.uidesc" }
+          $module = Get-ChildItem $bundle -Recurse -File -Filter "JerzyTapeDrive.vst3" | Select-Object -First 1
+          if (-not $module) { throw "VST3 processor binary missing" }
+          Compress-Archive -Path $bundle -DestinationPath JerzyTapeDrive_Windows_x64.zip -Force
 
       - name: Upload Tape Drive
         uses: actions/upload-artifact@v4
         with:
           name: JerzyTapeDrive-Windows-x64
           path: |
-            artifact/JerzyTapeDrive.vst3
             JerzyTapeDrive_Windows_x64.zip
           if-no-files-found: error
