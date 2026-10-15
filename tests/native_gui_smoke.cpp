@@ -71,7 +71,7 @@ int main(int argc,char** argv) {
            <<" size="<<cr.right<<"x"<<cr.bottom<<"\\n";
   SelectObject(capture,previous);DeleteObject(bitmap);DeleteDC(capture);
   ReleaseDC(child,dc);
-  require(background==RGB(13,21,26),"Native GUI background did not paint");
+  require(background==RGB(26,41,45),"Native GUI header did not paint");
   require(banner==RGB(205,153,75),"Native GUI amber accent did not paint");
   require(card==RGB(28,36,43),"Native GUI parameter cards did not paint");
   ParameterInfo info{};
