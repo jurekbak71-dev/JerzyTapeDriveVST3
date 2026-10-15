@@ -57,7 +57,7 @@ int main(int argc,char** argv) {
   InvalidateRect(child,nullptr,TRUE);UpdateWindow(child);pump();
   HDC dc=GetDC(child);
   const COLORREF background=GetPixel(dc,3,3),banner=GetPixel(dc,3,102),
-                 card=GetPixel(dc,24,133);
+                 card=GetPixel(dc,30,145);
   ReleaseDC(child,dc);
   require(background==RGB(13,21,26),"Native GUI background did not paint");
   require(banner==RGB(205,153,75),"Native GUI amber accent did not paint");
@@ -65,11 +65,11 @@ int main(int argc,char** argv) {
   ParameterInfo info{};
   require(controller->getParameterInfo(0,info)==kResultTrue,"First parameter not found");
   const double before=controller->getParamNormalized(info.id);
-  SendMessageW(child,WM_LBUTTONDOWN,MK_LBUTTON,MAKELPARAM(250,231));
-  SendMessageW(child,WM_LBUTTONUP,0,MAKELPARAM(250,231));
+  SendMessageW(child,WM_LBUTTONDOWN,MK_LBUTTON,MAKELPARAM(250,220));
+  SendMessageW(child,WM_LBUTTONUP,0,MAKELPARAM(250,220));
   require(std::abs(controller->getParamNormalized(info.id)-before)>.01,
           "Native GUI drag/click not connected to original VST3 parameter");
-  SendMessageW(child,WM_RBUTTONDOWN,MK_RBUTTON,MAKELPARAM(250,231));
+  SendMessageW(child,WM_RBUTTONDOWN,MK_RBUTTON,MAKELPARAM(250,220));
   require(std::abs(controller->getParamNormalized(info.id)-info.defaultNormalizedValue)<.0002,
           "Native GUI right-click parameter reset failed");
   ViewRect desired(0,0,930,570);
