@@ -1,7 +1,7 @@
 #include "tapedrive_controller.h"
 #include "tapedrive_params.h"
 #include "tapedrive_gui_views.h"
-#include "tapedrive_editor.h"
+#include "native_windows_editor.h"
 #include "tapedrive_state.h"
 #include <cmath>
 #include "base/source/fstreamer.h"
@@ -74,8 +74,7 @@ tresult PLUGIN_API TapeDriveController::setComponentState(IBStream*s){
 
 IPlugView* PLUGIN_API TapeDriveController::createView(const char*n){
  if(n&&std::strcmp(n,ViewType::kEditor)==0){
-   auto* editor = new TapeDriveEditor(this,"view","tapedrive_vintage.uidesc");
-   editor->setAllowedZoomFactors({0.70,0.85,1.0,1.25,1.5});
+   auto* editor = new NativeWindowsEditor(this,L"JERZY TAPE DRIVE",L"JerzyTapeDriveNativeV1");
    return editor;
  }
  return nullptr;
